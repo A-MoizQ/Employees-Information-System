@@ -1,0 +1,408 @@
+import mysql.connector
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+
+
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(800, 600)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.b1 = QtWidgets.QPushButton(self.centralwidget)
+        self.b1.setGeometry(QtCore.QRect(210, 30, 321, 31))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.b1.setFont(font)
+        self.b1.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.b1.setObjectName("b1")
+        self.b2 = QtWidgets.QPushButton(self.centralwidget)
+        self.b2.setGeometry(QtCore.QRect(210, 60, 321, 31))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.b2.setFont(font)
+        self.b2.setObjectName("b2")
+        self.b3 = QtWidgets.QPushButton(self.centralwidget)
+        self.b3.setGeometry(QtCore.QRect(210, 90, 321, 31))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.b3.setFont(font)
+        self.b3.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.b3.setObjectName("b3")
+        self.b4 = QtWidgets.QPushButton(self.centralwidget)
+        self.b4.setGeometry(QtCore.QRect(210, 120, 321, 31))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.b4.setFont(font)
+        self.b4.setObjectName("pushButton")
+        self.b5 = QtWidgets.QPushButton(self.centralwidget)
+        self.b5.setGeometry(QtCore.QRect(210, 150, 321, 31))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.b5.setFont(font)
+        self.b5.setObjectName("pushButton_2")
+        self.b6 = QtWidgets.QPushButton(self.centralwidget)
+        self.b6.setGeometry(QtCore.QRect(210, 180, 321, 31))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.b6.setFont(font)
+        self.b6.setObjectName("pushButton_3")
+        self.b7 = QtWidgets.QPushButton(self.centralwidget)
+        self.b7.setGeometry(QtCore.QRect(210, 210, 321, 31))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.b7.setFont(font)
+        self.b7.setObjectName("pushButton_4")
+
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
+        self.menubar.setObjectName("menubar")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.b1.clicked.connect(self.b1clicked)
+        self.b2.clicked.connect(self.b2clicked)
+        self.b3.clicked.connect(self.b3clicked)
+        self.b4.clicked.connect(self.b4clicked)
+        self.b5.clicked.connect(self.b5clicked)
+        self.b6.clicked.connect(self.b6clicked)
+        self.b7.clicked.connect(self.b7clicked)
+
+    def datashow(self):
+        mydb = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="employees information system"
+        )
+
+        mycursor = mydb.cursor()
+
+        sql = "SELECT * FROM employee"
+
+        mycursor.execute(sql)
+        myresult = mycursor.fetchall()
+
+        self.tableWidget.setRowCount(0)
+        for row_number,row_data in enumerate(myresult):
+            self.tableWidget.insertRow(row_number)
+            for column_number, data in enumerate(row_data):
+                self.tableWidget.setItem(row_number,column_number, QtWidgets.QTableWidgetItem(str(data)))
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "Employees Information System"))
+        self.b1.setText(_translate("MainWindow", "[1]. Insert Record"))
+        self.b2.setText(_translate("MainWindow", "[2]. Search Record"))
+        self.b3.setText(_translate("MainWindow", "     [3]. Show All Records"))
+        self.b4.setText(_translate("MainWindow", "[4]. Delete Record"))
+        self.b5.setText(_translate("MainWindow", "[5]. Modify Record"))
+        self.b6.setText(_translate("MainWindow", "       [6]. Delete All Records"))
+        self.b7.setText(_translate("MainWindow", "[7]. Exit                "))
+
+
+
+
+    def b1clicked(self):
+        i = Inputs()
+        i.takeinputs()
+
+    def b2clicked(self):
+        i = Inputs()
+        i.SearchRecord()
+
+
+
+    def b3clicked(self):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(946, 772)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
+        self.tableWidget.setGeometry(QtCore.QRect(10, 10, 921, 631))
+        self.tableWidget.setRowCount(2)
+        self.tableWidget.setColumnCount(4)
+        self.tableWidget.setObjectName("tableWidget")
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.backbutton = QtWidgets.QPushButton(self.centralwidget)
+        self.backbutton.setGeometry(QtCore.QRect(500, 700, 321, 31))
+        self.backbutton.setText("Back")
+        self.backbutton.clicked.connect(self.ReMain)
+
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+        self.datashow()
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+
+
+    def b4clicked(self):
+        i = Inputs()
+        i.DeleteRecord()
+
+    def b5clicked(self):
+        m = ModifyRecords()
+        m.Modify_window()
+      
+
+    def b6clicked(self):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(946, 772)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        MainWindow.setCentralWidget(self.centralwidget)
+
+
+        self.deletelabel = QtWidgets.QLabel(self.centralwidget)
+        self.deletelabel.setGeometry(200,50,500,500)
+        self.deletelabel.setFont(QtGui.QFont('Calibri', 26))
+        self.deletelabel.setObjectName("deltext")
+        self.deletelabel.setText("Are You Sure You Want To Delete All Records? (The Records Will Not Be Recoverable!)")
+        self.deletelabel.setWordWrap(True)
+        
+        
+        self.yesbutton = QtWidgets.QPushButton(self.centralwidget)
+        self.yesbutton.setObjectName("yesbutton")
+        self.yesbutton.setGeometry(QtCore.QRect(100, 600, 150, 100))
+        self.yesbutton.setFont(QtGui.QFont('Calibri',22))
+        self.yesbutton.setText("Yes")
+        self.yesbutton.clicked.connect(self.DeleteAllRecs)
+
+        self.nobutton = QtWidgets.QPushButton(self.centralwidget)
+        self.nobutton.setObjectName("nobutton")
+        self.nobutton.setGeometry(QtCore.QRect(650, 600, 150, 100))
+        self.nobutton.setFont(QtGui.QFont('Calibri',22))
+        self.nobutton.setText("No")
+        self.nobutton.clicked.connect(self.ReMain)
+        
+        self.vbox = QtWidgets.QVBoxLayout()
+        self.vbox.addWidget(self.deletelabel)
+
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        
+    def b7clicked(self):
+        sys.exit(app.exec_())
+
+
+    def ReMain(self):
+        self.setupUi(MainWindow)
+
+    def DeleteAllRecs(self):
+        mydb = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="employees information system"
+        )
+        mycursor = mydb.cursor()
+        sql = "DELETE FROM employee "
+        mycursor.execute(sql,)
+        mydb.commit()
+        self.ReMain()
+
+
+
+class Inputs(QtWidgets.QWidget):
+    def takeinputs(self):
+        self.id, x = QtWidgets.QInputDialog.getInt(self, 'ID Input', 'Enter Your ID: ' )
+        self.name, x1 = QtWidgets.QInputDialog.getText(self, 'Name Input', 'Enter Your Name: ')
+        self.age, x2 = QtWidgets.QInputDialog.getInt(self, 'Age Input', 'Enter Your Birth Year: ')
+        self.address, x3 = QtWidgets.QInputDialog.getText(self, 'Address Input', 'Enter Your Address: ')
+        if x and x1 and x2 and x3:
+            mydb = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password="",
+                database="employees information system"
+            )
+
+            mycursor = mydb.cursor()
+
+            sql = "INSERT INTO employee (id, name, age, address) VALUES (%s, %s,%s,%s)"
+            val = (self.id, self.name, self.age, self.address)
+            mycursor.execute(sql, val)
+
+            mydb.commit()
+            self.s = QtWidgets.QMessageBox()
+            self.s.setIcon(QtWidgets.QMessageBox.Information)
+            self.s.setText(f"{str(mycursor.rowcount)} Rows Affected")
+            self.s.exec_()
+
+    def SearchRecord(self):
+        self.id, x = QtWidgets.QInputDialog.getInt(self, 'ID Input', 'Enter Your ID: ')
+        self.s = QtWidgets.QMessageBox()
+        self.s.setWindowTitle("Search Record")
+        if x:
+            mydb = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password="",
+                database="employees information system"
+            )
+            mycursor = mydb.cursor()
+
+            sql = "SELECT * FROM employee WHERE id = %s"
+            ID = (self.id,)
+            mycursor.execute(sql, ID)
+            myresult = mycursor.fetchall()
+            if myresult:
+                for l in myresult:
+                    self.s.setText(str(l))
+                self.s.exec_()
+
+
+    def DeleteRecord(self):
+        self.id, x = QtWidgets.QInputDialog.getInt(self, 'ID Input', 'Enter ID To Delete: ')
+        if x:
+            mydb = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password="",
+                database="employees information system"
+            )
+
+            mycursor = mydb.cursor()
+
+
+            sql = "DELETE FROM employee WHERE id = %s"
+            ID = (self.id,)
+
+            mycursor.execute(sql, ID)
+
+            mydb.commit()
+            self.s = QtWidgets.QMessageBox()
+            self.s.setIcon(QtWidgets.QMessageBox.Information)
+            self.s.setText(f"{str(mycursor.rowcount)} Rows Affected")
+            self.s.exec_()
+
+   
+    
+    
+    
+            
+            
+class ModifyRecords(QtWidgets.QWidget):
+
+    def Modify_Name(self):
+        self.id, x = QtWidgets.QInputDialog.getInt(self, 'ID Input', 'Enter Your ID: ')
+        if x:
+            pass
+    
+
+    def exitbutton(self):
+        ui = Ui_MainWindow()
+        ui.ReMain()
+    
+
+
+    def Modify_window(self):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(762, 568)
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        MainWindow.setFont(font)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.nameButton = QtWidgets.QPushButton(self.centralwidget)
+        self.nameButton.setGeometry(QtCore.QRect(280, 130, 241, 51))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        font.setBold(True)
+        font.setWeight(75)
+        self.nameButton.setFont(font)
+        self.nameButton.setObjectName("pushButton")
+        self.nameButton.clicked.connect(self.Modify_Name)
+
+
+
+        self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_2.setGeometry(QtCore.QRect(280, 180, 241, 51))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        font.setBold(True)
+        font.setWeight(75)
+        self.pushButton_2.setFont(font)
+        self.pushButton_2.setObjectName("pushButton_2")
+        
+
+
+
+
+        self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_3.setGeometry(QtCore.QRect(280, 230, 241, 51))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        font.setBold(True)
+        font.setWeight(75)
+        self.pushButton_3.setFont(font)
+        self.pushButton_3.setObjectName("pushButton_3")
+
+
+        self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_4.setGeometry(QtCore.QRect(280, 280, 241, 51))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        font.setBold(True)
+        font.setWeight(75)
+        self.pushButton_4.setFont(font)
+        self.pushButton_4.setObjectName("pushButton_4")
+        self.pushButton_4.clicked.connect(self.exitbutton)
+
+
+
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.nameButton.setText(_translate("MainWindow", "[1]. Name"))
+        self.pushButton_2.setText(_translate("MainWindow", "[2]. Age   "))
+        self.pushButton_3.setText(_translate("MainWindow", "    [3]. Address"))
+        self.pushButton_4.setText(_translate("MainWindow", "[4]. Exit   "))
+
+   
+    
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())
+
+
