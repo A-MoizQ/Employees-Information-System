@@ -1,9 +1,14 @@
-import mysql.connector
+"""
+Imports
+"""
 
+import mysql.connector
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-
+"""
+Main Class
+"""
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -164,8 +169,10 @@ class Ui_MainWindow(object):
         i.DeleteRecord()
 
     def b5clicked(self):
-        m = ModifyRecords()
-        m.Modify_window()
+        self.m = ModifyRecords() 
+        self.m.Modify_window(MainWindow)
+
+        
       
 
     def b6clicked(self):
@@ -228,6 +235,9 @@ class Ui_MainWindow(object):
         self.ReMain()
 
 
+"""
+Class linked to main class to add records or search specified record from the database and performing specified task on it
+"""
 
 class Inputs(QtWidgets.QWidget):
     def takeinputs(self):
@@ -302,27 +312,85 @@ class Inputs(QtWidgets.QWidget):
             self.s.setText(f"{str(mycursor.rowcount)} Rows Affected")
             self.s.exec_()
 
-   
-    
-    
-    
-            
-            
-class ModifyRecords(QtWidgets.QWidget):
 
+"""
+Class linked to main class for modifying specified record from the database
+"""
+
+class ModifyRecords(QtWidgets.QWidget):
+    
     def Modify_Name(self):
         self.id, x = QtWidgets.QInputDialog.getInt(self, 'ID Input', 'Enter Your ID: ')
         if x:
-            pass
+            self.newname, x = QtWidgets.QInputDialog.getText(self, 'Name Input', 'Enter New Name: ')
+            if x:
+                mydb = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password="",
+                database="employees information system"
+                )
+                mycursor = mydb.cursor()
+                sql ="UPDATE employee SET name = %s WHERE id = %s "
+                val = (self.newname ,self.id)
+                mycursor.execute(sql,val)
+                mydb.commit()
+
+                self.s = QtWidgets.QMessageBox()
+                self.s.setIcon(QtWidgets.QMessageBox.Information)
+                self.s.setText(f"{str(mycursor.rowcount)} Rows Affected")
+                self.s.exec_()
     
 
+    def Modify_Age(self):
+        self.id, x = QtWidgets.QInputDialog.getInt(self, 'ID Input', 'Enter Your ID: ')
+        if x:
+            self.newage, x = QtWidgets.QInputDialog.getInt(self, 'Age Input', 'Enter New Birth Year: ')
+            if x:
+                mydb = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password="",
+                database="employees information system"
+                )
+                mycursor = mydb.cursor()
+                sql = "UPDATE employee set age = %s WHERE id = %s"
+                val = (self.newage,self.id)
+                mycursor.execute(sql,val)
+                mydb.commit()
+                self.s = QtWidgets.QMessageBox()
+                self.s.setIcon(QtWidgets.QMessageBox.Information)
+                self.s.setText(f"{str(mycursor.rowcount)} Rows Affected")
+                self.s.exec_()
+
+    def Modify_Address(self):
+        self.id, x = QtWidgets.QInputDialog.getInt(self, 'ID Input', 'Enter Your ID: ')
+        if x:
+            self.newaddress, x = QtWidgets.QInputDialog.getText(self, 'Address Input', 'Enter New Address: ')
+            if x:
+                mydb = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password="",
+                database="employees information system"
+                )
+                mycursor = mydb.cursor()
+                sql = "UPDATE employee set address = %s WHERE id = %s"
+                val = (self.newaddress, self.id)
+                mycursor.execute(sql,val)
+                mydb.commit()
+                self.s = QtWidgets.QMessageBox()
+                self.s.setIcon(QtWidgets.QMessageBox.Information)
+                self.s.setText(f"{str(mycursor.rowcount)} Rows Affected")
+                self.s.exec_()
+    
+    
     def exitbutton(self):
-        ui = Ui_MainWindow()
-        ui.ReMain()
+        self.ui = Ui_MainWindow()
+        self.ui.ReMain()
     
 
-
-    def Modify_window(self):
+    def Modify_window(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(762, 568)
         font = QtGui.QFont()
@@ -330,6 +398,8 @@ class ModifyRecords(QtWidgets.QWidget):
         MainWindow.setFont(font)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+
+
         self.nameButton = QtWidgets.QPushButton(self.centralwidget)
         self.nameButton.setGeometry(QtCore.QRect(280, 130, 241, 51))
         font = QtGui.QFont()
@@ -337,43 +407,41 @@ class ModifyRecords(QtWidgets.QWidget):
         font.setBold(True)
         font.setWeight(75)
         self.nameButton.setFont(font)
-        self.nameButton.setObjectName("pushButton")
+        self.nameButton.setObjectName("nameButton")
         self.nameButton.clicked.connect(self.Modify_Name)
 
 
-
-        self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_2.setGeometry(QtCore.QRect(280, 180, 241, 51))
+        self.ageButton = QtWidgets.QPushButton(self.centralwidget)
+        self.ageButton.setGeometry(QtCore.QRect(280, 180, 241, 51))
         font = QtGui.QFont()
         font.setPointSize(20)
         font.setBold(True)
         font.setWeight(75)
-        self.pushButton_2.setFont(font)
-        self.pushButton_2.setObjectName("pushButton_2")
+        self.ageButton.setFont(font)
+        self.ageButton.setObjectName("ageButton")
+        self.ageButton.clicked.connect(self.Modify_Age)
         
 
-
-
-
-        self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_3.setGeometry(QtCore.QRect(280, 230, 241, 51))
+        self.addressButton = QtWidgets.QPushButton(self.centralwidget)
+        self.addressButton.setGeometry(QtCore.QRect(280, 230, 241, 51))
         font = QtGui.QFont()
         font.setPointSize(20)
         font.setBold(True)
         font.setWeight(75)
-        self.pushButton_3.setFont(font)
-        self.pushButton_3.setObjectName("pushButton_3")
+        self.addressButton.setFont(font)
+        self.addressButton.setObjectName("addressButton")
+        self.addressButton.clicked.connect(self.Modify_Address)
 
 
-        self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_4.setGeometry(QtCore.QRect(280, 280, 241, 51))
+        self.exitButton = QtWidgets.QPushButton(self.centralwidget)
+        self.exitButton.setGeometry(QtCore.QRect(280, 280, 241, 51))
         font = QtGui.QFont()
         font.setPointSize(20)
         font.setBold(True)
         font.setWeight(75)
-        self.pushButton_4.setFont(font)
-        self.pushButton_4.setObjectName("pushButton_4")
-        self.pushButton_4.clicked.connect(self.exitbutton)
+        self.exitButton.setFont(font)
+        self.exitButton.setObjectName("exitButton")
+        self.exitButton.clicked.connect(self.exitbutton)
 
 
 
@@ -389,10 +457,13 @@ class ModifyRecords(QtWidgets.QWidget):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.nameButton.setText(_translate("MainWindow", "[1]. Name"))
-        self.pushButton_2.setText(_translate("MainWindow", "[2]. Age   "))
-        self.pushButton_3.setText(_translate("MainWindow", "    [3]. Address"))
-        self.pushButton_4.setText(_translate("MainWindow", "[4]. Exit   "))
+        self.ageButton.setText(_translate("MainWindow", "[2]. Age   "))
+        self.addressButton.setText(_translate("MainWindow", "    [3]. Address"))
+        self.exitButton.setText(_translate("MainWindow", "[4]. Exit   "))
 
+    
+    
+ 
    
     
 
